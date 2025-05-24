@@ -30,7 +30,7 @@ class LSrouter(Router):
         self.port_to_neighbor = {}  # port_to_neighbor: {port: neighbor_addr}
 
         self.sequence_numbers[self.addr] = self.seq
-        self.lsdb[self.addr] = {} # Initially no links, updated on link changes
+        self.lsdb[self.addr] = {}
 
     def flood_lsp(self, packet, incoming_port):
         """Floods an LSP to all neighbors except the one it arrived on."""
@@ -154,9 +154,7 @@ class LSrouter(Router):
         """Handle current time."""
         if time_ms - self.last_time >= self.heartbeat_time:
             self.last_time = time_ms
-            if time_ms - self.last_time >= self.heartbeat_time:
-                self.last_time = time_ms
-                self.broadcast_link_state()
+            self.broadcast_link_state()
 
     def __repr__(self):
         """Representation for debugging in the network visualizer."""
